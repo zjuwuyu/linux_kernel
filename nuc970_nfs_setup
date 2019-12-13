@@ -1,0 +1,19 @@
+路由器MAC:   EC-41-18-D1-51-82
+
+ifconfig eth0 192.168.31.166 netmask 255.255.255.0 up
+mount -t nfs -o nolock 192.168.31.200:/home/wuyu/nuc970bsp /mnt
+set bootcmd nboot 0x7fc0 0 0x200000\; bootm 0x7fc0
+
+网络根文件系统：
+setenv ipaddr 192.168.1.166
+setenv serverip 192.168.1.1
+saveenv
+
+nfs 0x200000 192.168.31.200:/home/wuyu/nuc970bsp/image/970uImage_nonand
+set bootargs console=ttySAC0 root=/dev/nfs  nfsroot=192.168.31.200:/home/wuyu/nuc970bsp/rootfs ip=192.168.31.166:192.168.31.200:192.168.31.1:255.255.255.0::eth0:off
+
+export TSLIB_TSDEVICE=/dev/input/event0
+export TSLIB_CALIBFILE=/etc/pointercal
+export TSLIB_CONFFILE=/etc/ts.conf
+export TSLIB_PLUGINDIR=/lib/ts
+export TSLIB_FBDEVICE=/dev/fb0
